@@ -3,126 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pustaka Digital - Open Library</title>
+    <title>Library Digital - Ebook.eu.org</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS: Mengatur Tampilan --- */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; color: #333; }
-        
-        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; }
-        h1 { margin: 0; font-size: 24px; }
-        
-        .search-container { padding: 20px; text-align: center; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input[type="text"] { padding: 12px; width: 60%; max-width: 400px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
-        button { padding: 12px 24px; background-color: #e67e22; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #d35400; }
-
-        /* Grid untuk Buku */
-        #book-list { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 20px; 
-            padding: 20px; 
-            max-width: 1200px; 
-            margin: 0 auto; 
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e293b;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --white: #ffffff;
         }
 
-        /* Kartu Buku */
-        .book-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; display: flex; flex-direction: column; }
-        .book-card:hover { transform: translateY(-5px); }
-        .book-img { width: 100%; height: 280px; object-fit: cover; background: #eee; }
-        .book-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .book-title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; }
-        .book-author { color: #666; font-size: 0.9em; margin-bottom: 10px; }
-        .btn-read { display: block; text-align: center; background: #3498db; color: white; text-decoration: none; padding: 8px; border-radius: 4px; margin-top: auto; }
-        .btn-read:hover { background: #2980b9; }
-        
-        .loading { text-align: center; margin-top: 20px; font-style: italic; color: #666; display: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navbar & Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary), #000);
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        h1 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: -1px; }
+        header p { opacity: 0.8; font-weight: 300; }
+
+        /* Search Bar Section */
+        .search-section {
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            background: var(--white);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .search-box button:hover { background: #1d4ed8; }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: #e2e8f0;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Grid Books */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Card Design */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 2.8rem;
+        }
+
+        .card-author {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-view {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #cbd5e1;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .search-box { flex-direction: column; border-radius: 15px; }
+            .search-box button { border-radius: 10px; margin-top: 10px; width: 100%; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>📚 Pustaka Digital Indonesia</h1>
-        <p>Data diambil langsung dari Open Library API</p>
+        <div class="container">
+            <h1>🏛️ Library Digital</h1>
+            <p>Ebook.eu.org - Akses pengetahuan dunia secara gratis</p>
+        </div>
     </header>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Cari buku (Judul, Penulis, atau Topik)..." onkeypress="handleEnter(event)">
-        <button onclick="fetchBooks()">Cari</button>
+    <div class="container">
+        <section class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari judul buku, pengarang, atau topik...">
+                <button onclick="performSearch()">Cari Buku</button>
+            </div>
+        </section>
+
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterSearch('Indonesia')">Indonesia</button>
+            <button class="cat-btn" onclick="filterSearch('Technology')">Teknologi</button>
+            <button class="cat-btn" onclick="filterSearch('Classic')">Klasik</button>
+            <button class="cat-btn" onclick="filterSearch('Children')">Anak-Anak</button>
+            <button class="cat-btn" onclick="filterSearch('History')">Sejarah</button>
+        </div>
+
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <p>Mencari koleksi di perpustakaan...</p>
+        </div>
+
+        <div id="bookGrid" class="book-grid">
+            </div>
     </div>
 
-    <div id="loading" class="loading">Sedang mencari buku di rak Open Library...</div>
-    <div id="book-list"></div>
+    <footer>
+        <p>&copy; 2024 Library Digital Ebook.eu.org. Powered by GitHub & Open Library API.</p>
+    </footer>
 
     <script>
-        const API_URL = "https://openlibrary.org/search.json?q=";
+       const grid = document.getElementById('bookGrid');
+const loader = document.getElementById('loader');
+const searchInput = document.getElementById('searchInput');
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') fetchBooks();
+// Fungsi Utama mengambil data dari API
+async function fetchBooks(query, type = 'search') {
+    grid.innerHTML = '';
+    loader.style.display = 'block';
+
+    let url;
+    if (type === 'search') {
+        // Menggunakan Search API untuk pencarian kata kunci
+        url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=18`;
+    } else {
+        // Menggunakan Subjects API untuk kategori di halaman depan (lebih cepat & rapi)
+        url = `https://openlibrary.org/subjects/${query.toLowerCase()}.json?limit=18`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        loader.style.display = 'none';
+        
+        // Open Library mengembalikan struktur data berbeda antara Search dan Subjects
+        const books = type === 'search' ? data.docs : data.works;
+
+        if (!books || books.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 50px;">🔍 Maaf, koleksi tidak ditemukan. Coba kata kunci lain.</div>';
+            return;
         }
 
-        async function fetchBooks() {
-            const query = document.getElementById('searchInput').value;
-            const listContainer = document.getElementById('book-list');
-            const loading = document.getElementById('loading');
+        books.forEach(book => {
+            // Logika pengambilan Cover
+            const coverId = book.cover_id || book.cover_i;
+            const coverUrl = coverId 
+                ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` 
+                : 'https://via.placeholder.com/220x300?text=No+Cover';
+            
+            // Logika pengambilan Nama Penulis
+            let author = 'Unknown Author';
+            if (book.author_name) author = book.author_name[0];
+            else if (book.authors) author = book.authors[0].name;
 
-            if (!query) return alert("Silakan ketik kata kunci pencarian!");
+            const title = book.title;
+            const bookKey = book.key; // Contoh: /works/OL12345W
 
-            // Reset tampilan
-            listContainer.innerHTML = '';
-            loading.style.display = 'block';
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="${coverUrl}" alt="${title}" loading="lazy">
+                <div class="card-body">
+                    <div class="card-title" title="${title}">${title}</div>
+                    <div class="card-author">👤 ${author}</div>
+                    <div class="card-footer">
+                        <span class="badge">📖 Ebook</span>
+                        <a href="https://openlibrary.org${bookKey}" target="_blank" class="btn-view">Baca Detail</a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (error) {
+        console.error("API Error:", error);
+        loader.style.display = 'none';
+        grid.innerHTML = '<p style="text-align:center; color:red;">Gagal terhubung ke database Open Library. Coba lagi nanti.</p>';
+    }
+}
 
-            try {
-                // Mengambil data dari API (Fetch)
-                // Mengambil 20 buku teratas
-                const response = await fetch(`${API_URL}${encodeURIComponent(query)}&limit=20`); 
-                const data = await response.json();
+// Fungsi Pencarian
+function performSearch() {
+    const val = searchInput.value;
+    if (val) {
+        // Menghapus status active di tombol kategori saat user mengetik manual
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        fetchBooks(val, 'search');
+    }
+}
 
-                loading.style.display = 'none';
+// Fungsi Filter Kategori
+function filterSearch(tag) {
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    searchInput.value = ''; // Reset search box
+    fetchBooks(tag, 'subject');
+}
 
-                if (data.docs.length === 0) {
-                    listContainer.innerHTML = '<p style="text-align:center; width:100%;">Tidak ada buku ditemukan.</p>';
-                    return;
-                }
+// Event Listener untuk tombol Enter
+searchInput.addEventListener("keypress", (e) => { if (e.key === "Enter") performSearch(); });
 
-                // Melakukan looping (perulangan) untuk setiap buku
-                data.docs.forEach(book => {
-                    // Cek apakah ada cover, jika tidak pakai gambar placeholder
-                    const coverUrl = book.cover_i 
-                        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` 
-                        : 'https://via.placeholder.com/200x280?text=No+Cover';
-                    
-                    const author = book.author_name ? book.author_name.join(', ') : 'Penulis Tidak Diketahui';
-                    const key = book.key; // ID unik buku untuk link detail
-
-                    // Membuat elemen HTML kartu buku
-                    const card = document.createElement('div');
-                    card.className = 'book-card';
-                    card.innerHTML = `
-                        <img src="${coverUrl}" class="book-img" alt="${book.title}">
-                        <div class="book-info">
-                            <div>
-                                <div class="book-title">${book.title}</div>
-                                <div class="book-author">Oleh: ${author}</div>
-                            </div>
-                            <a href="https://openlibrary.org${key}" target="_blank" class="btn-read">Lihat Detail</a>
-                        </div>
-                    `;
-                    listContainer.appendChild(card);
-                });
-
-            } catch (error) {
-                console.error(error);
-                loading.style.display = 'none';
-                listContainer.innerHTML = '<p style="text-align:center;">Terjadi kesalahan saat mengambil data.</p>';
-            }
-        }
-
-        // Jalankan pencarian default saat website pertama dibuka
-        window.onload = () => {
-            document.getElementById('searchInput').value = "Sejarah Indonesia";
-            fetchBooks();
-        }
+// Load pertama kali: Menampilkan buku bertema Indonesia
+window.onload = () => fetchBooks('indonesia', 'search');
     </script>
 </body>
 </html>
