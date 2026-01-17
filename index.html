@@ -4,122 +4,143 @@
     <script src="https://jsc.mgid.com/site/769532.js" async></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Digital - Ebook.eu.org</title>
+    
+    <title>Library Digital - Download Ebook Gratis Lengkap & Terpercaya</title>
+    <meta name="description" content="Akses ribuan ebook gratis mulai dari fiksi, non-fiksi, buku sekolah, hingga teknologi dalam format PDF dan EPUB. Koleksi pustaka digital terlengkap di ebook.eu.org.">
+    <meta name="keywords" content="ebook gratis, download ebook pdf, perpustakaan digital, buku digital indonesia, novel gratis, buku sekolah digital, open library indonesia">
+    <meta name="author" content="Library Digital">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ebook.eu.org/">
+    <meta property="og:title" content="Library Digital - Koleksi Ebook Gratis Terlengkap">
+    <meta property="og:description" content="Cari dan baca ribuan koleksi ebook dari berbagai genre. Gratis, legal, dan mudah diakses.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1000&q=80">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Library Digital - Pustaka Ebook Terlengkap">
+    
+    <link rel="canonical" href="https://ebook.eu.org/">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Library Digital",
+      "url": "https://ebook.eu.org/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ebook.eu.org/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
             --secondary: #0f172a;
-            --accent: #f59e0b;
             --bg: #f8fafc;
             --white: #ffffff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--secondary); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--secondary); line-height: 1.6; }
 
+        /* SEO Friendly Header */
         header {
             background: linear-gradient(135deg, var(--secondary), #1e293b);
             color: var(--white);
-            padding: 40px 20px 80px;
+            padding: 60px 20px 100px;
             text-align: center;
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* Navigation Kategori */
+        h1 { font-size: 2.8rem; margin-bottom: 10px; font-weight: 800; }
+        .sub-header { opacity: 0.9; font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+
+        /* Search & Nav UI */
         .nav-wrapper {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-top: -50px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-top: -60px;
             position: relative;
-            z-index: 100;
         }
 
+        .search-main { display: flex; gap: 10px; margin-bottom: 25px; }
+        .search-main input { flex: 1; padding: 18px 25px; border-radius: 50px; border: 2px solid #e2e8f0; font-size: 1rem; transition: 0.3s; }
+        .search-main input:focus { border-color: var(--primary); outline: none; }
+        .search-main button { background: var(--primary); color: white; border: none; padding: 0 35px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .search-main button:hover { background: #1d4ed8; transform: scale(1.05); }
+
+        /* Kategori Dropdown Grid */
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
-            margin-top: 15px;
         }
+
+        .category-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-left: 10px; }
 
         select {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #e2e8f0;
-            background: #f1f5f9;
+            background: #f8fafc;
             font-size: 0.9rem;
-            outline: none;
             cursor: pointer;
         }
 
-        .search-main {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-main input {
-            flex: 1;
-            padding: 15px 25px;
-            border-radius: 30px;
-            border: 2px solid #e2e8f0;
-            font-size: 1rem;
-        }
-
-        .search-main button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 30px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Book Grid */
+        /* Bookshelf */
         .book-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
-            transition: 0.3s;
-            border: 1px solid #eee;
+            transition: 0.4s;
+            border: 1px solid #f1f5f9;
             display: flex;
             flex-direction: column;
         }
 
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 260px; object-fit: cover; }
-        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-size: 0.95rem; font-weight: 700; height: 2.5rem; overflow: hidden; margin-bottom: 5px; }
-        .card-author { font-size: 0.8rem; color: #64748b; margin-bottom: 10px; }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .card img { width: 100%; height: 280px; object-fit: cover; }
+        .card-body { padding: 20px; flex-grow: 1; }
+        .card-title { font-size: 1rem; font-weight: 700; height: 3rem; overflow: hidden; margin-bottom: 5px; line-height: 1.4; }
+        .card-author { font-size: 0.85rem; color: #64748b; }
+        
         .btn-read {
-            background: #eff6ff;
+            display: block;
+            background: #f1f5f9;
             color: var(--primary);
             text-align: center;
             text-decoration: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: auto;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 15px;
+            transition: 0.3s;
         }
+        .btn-read:hover { background: var(--primary); color: white; }
 
-        .loader { display: none; text-align: center; padding: 50px; grid-column: 1/-1; }
+        footer { text-align: center; padding: 60px 20px; color: #64748b; font-size: 0.9rem; }
 
         @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
             .search-main { flex-direction: column; }
-            .category-grid { grid-template-columns: 1fr; }
+            .search-main button { padding: 15px; }
         }
     </style>
 </head>
@@ -127,80 +148,91 @@
 
     <header>
         <div class="container">
-            <h1>🏛️ Library Digital</h1>
-            <p>Ebook.eu.org - Katalog Pengetahuan Terlengkap</p>
+            <h1>Library Digital</h1>
+            <p class="sub-header">Pusat Database Ebook Gratis Terlengkap. Cari Novel, Buku Sekolah, dan Materi Teknologi dalam format PDF/EPUB.</p>
         </div>
     </header>
 
     <div class="container">
-        <div class="nav-wrapper">
+        <main class="nav-wrapper">
             <div class="search-main">
-                <input type="text" id="searchInput" placeholder="Cari judul, penulis, atau ISBN...">
-                <button onclick="performSearch()">Cari</button>
+                <input type="text" id="searchInput" aria-label="Cari Buku" placeholder="Ketik judul buku atau nama penulis...">
+                <button onclick="performSearch()">Cari Ebook</button>
             </div>
 
             <div class="category-grid">
-                <select onchange="filterCategory(this.value)">
-                    <option value="">📖 Pilih Genre Fiksi</option>
-                    <option value="fiction">Novel (Umum)</option>
-                    <option value="short_stories">Cerpen</option>
-                    <option value="poetry">Puisi</option>
-                    <option value="fantasy">Fantasi</option>
-                    <option value="science_fiction">Sci-Fi</option>
-                    <option value="mystery">Misteri & Thriller</option>
-                    <option value="horror">Horor</option>
-                    <option value="romance">Romantis</option>
-                </select>
+                <div class="category-group">
+                    <label>📖 Fiksi</label>
+                    <select onchange="filterCategory(this.value, 'subject')">
+                        <option value="">Pilih Genre</option>
+                        <option value="fiction">Novel Umum</option>
+                        <option value="fantasy">Fantasi</option>
+                        <option value="mystery">Misteri & Thriller</option>
+                        <option value="romance">Romantis</option>
+                        <option value="horror">Horor</option>
+                    </select>
+                </div>
 
-                <select onchange="filterCategory(this.value)">
-                    <option value="">📘 Pilih Non-Fiksi</option>
-                    <option value="biography">Biografi</option>
-                    <option value="history">Sejarah</option>
-                    <option value="self-help">Motivasi</option>
-                    <option value="philosophy">Filsafat</option>
-                    <option value="religion">Agama</option>
-                    <option value="psychology">Psikologi</option>
-                    <option value="politics">Politik & Sosial</option>
-                    <option value="business">Ekonomi & Bisnis</option>
-                </select>
+                <div class="category-group">
+                    <label>📘 Non-Fiksi</label>
+                    <select onchange="filterCategory(this.value, 'subject')">
+                        <option value="">Pilih Bidang</option>
+                        <option value="biography">Biografi</option>
+                        <option value="history">Sejarah</option>
+                        <option value="psychology">Psikologi</option>
+                        <option value="business">Ekonomi & Bisnis</option>
+                        <option value="religion">Agama & Spiritualitas</option>
+                    </select>
+                </div>
 
-                <select onchange="filterCategory(this.value)">
-                    <option value="">💻 Teknologi & Digital</option>
-                    <option value="computer">Komputer & IT</option>
-                    <option value="programming">Pemrograman</option>
-                    <option value="design">Desain Grafis</option>
-                    <option value="ai">Kecerdasan Buatan (AI)</option>
-                    <option value="security">Data & Keamanan</option>
-                </select>
+                <div class="category-group">
+                    <label>💻 Teknologi</label>
+                    <select onchange="filterCategory(this.value, 'subject')">
+                        <option value="">Pilih Topik</option>
+                        <option value="programming">Pemrograman</option>
+                        <option value="computer_science">Ilmu Komputer</option>
+                        <option value="artificial_intelligence">Kecerdasan Buatan</option>
+                        <option value="design">Desain Grafis</option>
+                    </select>
+                </div>
 
-                <select onchange="filterCategory(this.value)">
-                    <option value="">🌍 Umum & Akademik</option>
-                    <option value="education">Pendidikan</option>
-                    <option value="science">Sains Populer</option>
-                    <option value="cooking">Kuliner</option>
-                    <option value="health">Kesehatan</option>
-                    <option value="travel">Traveling</option>
-                    <option value="parenting">Parenting</option>
-                </select>
+                <div class="category-group">
+                    <label>🎓 Pendidikan</label>
+                    <select onchange="filterCategory(this.value, 'subject')">
+                        <option value="">Pilih Jenjang</option>
+                        <option value="science">Sains</option>
+                        <option value="mathematics">Matematika</option>
+                        <option value="textbooks">Buku Pelajaran</option>
+                        <option value="children">Edukasi Anak</option>
+                    </select>
+                </div>
             </div>
-        </div>
+        </main>
 
-        <div id="loader" class="loader">Memproses data pustaka...</div>
-        <div id="bookGrid" class="book-grid"></div>
+        <section id="bookGrid" class="book-grid">
+            </section>
+        
+        <div id="loader" style="display:none; text-align:center; padding:50px;">
+            <p>Menghubungkan ke server perpustakaan...</p>
+        </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Library Digital Ebook.eu.org - Akses Literasi Global Tanpa Batas.</p>
+        <p style="font-size: 0.7rem; margin-top: 10px;">Semua data disediakan oleh Open Library API secara publik.</p>
+    </footer>
 
     <script>
         const grid = document.getElementById('bookGrid');
         const loader = document.getElementById('loader');
 
-        async function loadBooks(query, isSubject = false) {
+        async function fetchAPI(query, isSubject = false) {
             grid.innerHTML = '';
             loader.style.display = 'block';
-            
-            // Logika API: Jika kategori gunakan Subjects, jika ketik gunakan Search
+
             const url = isSubject 
-                ? `https://openlibrary.org/subjects/${query.toLowerCase()}.json?limit=20`
-                : `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=20`;
+                ? `https://openlibrary.org/subjects/${query.toLowerCase()}.json?limit=24`
+                : `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=24`;
 
             try {
                 const res = await fetch(url);
@@ -208,43 +240,47 @@
                 loader.style.display = 'none';
 
                 const books = isSubject ? data.works : data.docs;
+                
+                if(!books || books.length === 0) {
+                    grid.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Buku tidak ditemukan.</p>";
+                    return;
+                }
 
                 books.forEach(book => {
                     const cID = book.cover_id || book.cover_i;
                     const cover = cID ? `https://covers.openlibrary.org/b/id/${cID}-M.jpg` : 'https://via.placeholder.com/200x280?text=No+Cover';
                     const author = book.author_name ? book.author_name[0] : (book.authors ? book.authors[0].name : 'Anonim');
-
-                    const div = document.createElement('div');
-                    div.className = 'card';
-                    div.innerHTML = `
-                        <img src="${cover}" loading="lazy">
+                    
+                    const article = document.createElement('article');
+                    article.className = 'card';
+                    article.innerHTML = `
+                        <img src="${cover}" alt="Sampul buku ${book.title}" loading="lazy">
                         <div class="card-body">
-                            <div class="card-title">${book.title}</div>
-                            <div class="card-author">${author}</div>
-                            <a href="https://openlibrary.org${book.key}" target="_blank" class="btn-read">Detail Ebook</a>
+                            <h2 class="card-title">${book.title}</h2>
+                            <p class="card-author">👤 ${author}</p>
+                            <a href="https://openlibrary.org${book.key}" target="_blank" rel="nofollow" class="btn-read">Baca Ebook</a>
                         </div>
                     `;
-                    grid.appendChild(div);
+                    grid.appendChild(article);
                 });
             } catch (e) {
-                loader.innerHTML = "Gagal memuat data.";
+                loader.innerHTML = "Terjadi gangguan koneksi.";
             }
         }
 
         function performSearch() {
             const val = document.getElementById('searchInput').value;
-            if(val) loadBooks(val, false);
+            if(val) fetchAPI(val, false);
         }
 
-        function filterCategory(val) {
-            if(val) {
-                document.getElementById('searchInput').value = "";
-                loadBooks(val, true);
-            }
+        function filterCategory(val, type) {
+            if(val) fetchAPI(val, true);
         }
 
-        // Load Default
-        window.onload = () => loadBooks('indonesia', false);
+        document.getElementById('searchInput').addEventListener("keypress", (e) => { if (e.key === "Enter") performSearch(); });
+
+        // Default SEO Load
+        window.onload = () => fetchAPI('indonesia', false);
     </script>
 </body>
 </html>
