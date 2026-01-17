@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pustaka Digital - Open Library</title>
+    <style>
+        /* --- CSS: Mengatur Tampilan --- */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; color: #333; }
+        
+        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; }
+        h1 { margin: 0; font-size: 24px; }
+        
+        .search-container { padding: 20px; text-align: center; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input[type="text"] { padding: 12px; width: 60%; max-width: 400px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
+        button { padding: 12px 24px; background-color: #e67e22; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #d35400; }
 
+        /* Grid untuk Buku */
+        #book-list { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 20px; 
+            padding: 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+
+        /* Kartu Buku */
+        .book-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .book-card:hover { transform: translateY(-5px); }
+        .book-img { width: 100%; height: 280px; object-fit: cover; background: #eee; }
+        .book-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .book-title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; }
+        .book-author { color: #666; font-size: 0.9em; margin-bottom: 10px; }
+        .btn-read { display: block; text-align: center; background: #3498db; color: white; text-decoration: none; padding: 8px; border-radius: 4px; margin-top: auto; }
+        .btn-read:hover { background: #2980b9; }
+        
+        .loading { text-align: center; margin-top: 20px; font-style: italic; color: #666; display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📚 Pustaka Digital Indonesia</h1>
+        <p>Data diambil langsung dari Open Library API</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Cari buku (Judul, Penulis, atau Topik)..." onkeypress="handleEnter(event)">
+        <button onclick="fetchBooks()">Cari</button>
+    </div>
+
+    <div id="loading" class="loading">Sedang mencari buku di rak Open Library...</div>
+    <div id="book-list"></div>
+
+    <script>
+        const API_URL = "https://openlibrary.org/search.json?q=";
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') fetchBooks();
+        }
+
+        async function fetchBooks() {
+            const query = document.getElementById('searchInput').value;
+            const listContainer = document.getElementById('book-list');
+            const loading = document.getElementById('loading');
+
+            if (!query) return alert("Silakan ketik kata kunci pencarian!");
+
+            // Reset tampilan
+            listContainer.innerHTML = '';
+            loading.style.display = 'block';
+
+            try {
+                // Mengambil data dari API (Fetch)
+                // Mengambil 20 buku teratas
+                const response = await fetch(`${API_URL}${encodeURIComponent(query)}&limit=20`); 
+                const data = await response.json();
+
+                loading.style.display = 'none';
+
+                if (data.docs.length === 0) {
+                    listContainer.innerHTML = '<p style="text-align:center; width:100%;">Tidak ada buku ditemukan.</p>';
+                    return;
+                }
+
+                // Melakukan looping (perulangan) untuk setiap buku
+                data.docs.forEach(book => {
+                    // Cek apakah ada cover, jika tidak pakai gambar placeholder
+                    const coverUrl = book.cover_i 
+                        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` 
+                        : 'https://via.placeholder.com/200x280?text=No+Cover';
+                    
+                    const author = book.author_name ? book.author_name.join(', ') : 'Penulis Tidak Diketahui';
+                    const key = book.key; // ID unik buku untuk link detail
+
+                    // Membuat elemen HTML kartu buku
+                    const card = document.createElement('div');
+                    card.className = 'book-card';
+                    card.innerHTML = `
+                        <img src="${coverUrl}" class="book-img" alt="${book.title}">
+                        <div class="book-info">
+                            <div>
+                                <div class="book-title">${book.title}</div>
+                                <div class="book-author">Oleh: ${author}</div>
+                            </div>
+                            <a href="https://openlibrary.org${key}" target="_blank" class="btn-read">Lihat Detail</a>
+                        </div>
+                    `;
+                    listContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error(error);
+                loading.style.display = 'none';
+                listContainer.innerHTML = '<p style="text-align:center;">Terjadi kesalahan saat mengambil data.</p>';
+            }
+        }
+
+        // Jalankan pencarian default saat website pertama dibuka
+        window.onload = () => {
+            document.getElementById('searchInput').value = "Sejarah Indonesia";
+            fetchBooks();
+        }
+    </script>
+</body>
+</html>
